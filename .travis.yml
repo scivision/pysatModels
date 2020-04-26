@@ -12,20 +12,21 @@ addons:
     packages:
     - gfortran
 
-before_install:
-  - pip install pytest-cov
-  - pip install pytest-flake8
-  - pip install coveralls
-  - pip install future
-  - pip install numpy
-  - pip install scipy
-  - pip install pandas
-  - pip install xarray
-  - pip install matplotlib
-# Travis CI currently not working with netCDF4 1.5.3
-  - pip install 'cftime==1.1.1'
-  - pip install 'netCDF4<1.5.3'
-# Install pysatCDF and dump output
+install:
+  - sudo apt-get update
+  # We do this conditionally because it saves us some downloading if the
+  # version is the same.
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - source "$HOME/miniconda/etc/profile.d/conda.sh"
+  - hash -r
+  - conda config --set always_yes True --set changeps1 False
+  - conda update -q conda
+  # Useful for debugging any issues with conda
+  - conda info -a
+  # Create conda test environment
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION numpy scipy pandas xarray requests beautifulsoup4 lxml netCDF4 nose pytest-cov pytest-ordering coveralls future
+  - conda activate test-environment
   - pip install pysatCDF >/dev/null
   # Prepare pysat install from git
   - cd ..
