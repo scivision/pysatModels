@@ -3,6 +3,10 @@ language: python
 dist: xenial
 jobs:
   include:
+    - name: Minimum NEP 029 versions
+      python: 3.6
+      env: NUMPY_VER=1.15
+    # Versions with latest numpy
     - python: 3.6
     - python: 3.7
 
@@ -27,6 +31,13 @@ install:
   # Create conda test environment
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION numpy scipy pandas xarray requests beautifulsoup4 lxml netCDF4 nose pytest-cov pytest-ordering coveralls future
   - conda activate test-environment
+  # check for custom version of numpy
+  - if [ -z ${NUMPY_VER} ]; then
+      echo 'Using latest numpy';
+    else
+      conda install numpy==$NUMPY_VER;
+    fi
+  # Install pysatCDF and dump output
   - pip install pysatCDF >/dev/null
   # Prepare pysat install from git
   - cd ..
@@ -38,9 +49,8 @@ install:
   - git checkout develop-3
   - python setup.py install >/dev/null
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
+  # install pysatModels
   - cd ../pysatModels
-
-install:
   - python setup.py install
 
 script:
