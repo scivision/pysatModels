@@ -229,9 +229,9 @@ class TestUtilsMatchCollectInstModPairs:
         assert np.all(np.isfinite(self.out.data.data_vars[self.ref_col].values))
 
     @pytest.mark.parametrize("lin,lout,test_out",
-                             [([-179.0,179.0], [-180.0,180.0], 3),
-                              ([0.5,359.0], [0.0,360.0], 3),
-                              ([-1.0,210.0], None,
+                             [([-179.0, 179.0], [-180.0, 180.0], 3),
+                              ([0.5, 359.0], [0.0, 360.0], 3),
+                              ([-1.0, 210.0], None,
                                'unexpected longitude range')])
     def test_lon_output(self, lin, lout, test_out):
         """ Test the match handling with different longitude range input
@@ -248,7 +248,7 @@ class TestUtilsMatchCollectInstModPairs:
                     mdata.coords['longitude'] = np.linspace(
                         *lin, mdata.dims['longitude'])
             return mdata
-        
+
         self.required_kwargs['model_load_rout'] = lon_model_load
         self.required_kwargs['model_label'] = 'tmodel'
         self.required_kwargs['sel_name'] = [self.ref_col]
@@ -297,7 +297,8 @@ class TestUtilsMatchCollectInstModPairs:
     def test__inst_download_missing(self):
         """ Test the download data loop, which will fail to download anything
         """
-        self.input_args[0] = self.inst.files.files.index[0]-dt.timedelta(days=1)
+        self.input_args[0] = (self.inst.files.files.index[0]
+                              - dt.timedelta(days=1))
         self.input_args[1] = self.inst.files.files.index[0]
 
         self.out = match.collect_inst_model_pairs(*self.input_args,
