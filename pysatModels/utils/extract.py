@@ -190,10 +190,10 @@ def instrument_altitude_to_model_pressure(inst, model, inst_name, mod_name,
     return [inst_out_alt, inst_out_pres]
 
 
-def instrument_view_through_model(inst, model, inst_name, mod_name,
-                                  mod_datetime_name, mod_time_name,
-                                  mod_units, sel_name=None,
-                                  methods=['linear'], model_label='model'):
+def interp_model_onto_inst(inst, model, inst_name, mod_name,
+                           mod_datetime_name, mod_time_name,
+                           mod_units, sel_name=None,
+                           methods=['linear'], model_label='model'):
     """Interpolates model values onto instrument locations.
 
     Parameters
