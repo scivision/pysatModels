@@ -45,17 +45,15 @@ install:
   # conda using old coveralls (1.5.2) which is not working on Travis CI
   - pip install coveralls
   # Prepare pysat install from git
-  - cd ..
-  - git clone https://github.com/pysat/pysat.git >/dev/null
-  - cd ./pysat
+  - pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple pysat
   # set up data directory
   - mkdir /home/travis/build/pysatData
   # install pysat
-  - git checkout develop-3
-  - python setup.py install >/dev/null
+  # - git checkout develop-3
+  # - python setup.py install >/dev/null
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
   # install pysatModels
-  - cd ../pysatModels
+  # - cd ../pysatModels
   - python setup.py install
 
 script:
