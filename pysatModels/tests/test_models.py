@@ -27,6 +27,7 @@ for method in method_list:
             getattr(InstTestClass, method).pytestmark.append(mark)
 
 
+@pytest.skip()
 class TestModels(InstTestClass):
 
     def setup(self):
